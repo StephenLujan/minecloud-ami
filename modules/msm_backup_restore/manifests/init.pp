@@ -29,13 +29,6 @@ class msm_backup_restore {
         source  => 'puppet:///modules/msm_backup_restore/init.d/msm-jar-update',
     }
 
-    file {'/etc/init.d/msm-log-rotate':
-        owner   => root,
-        group   => root,
-        mode    => 0755,
-        source  => 'puppet:///modules/msm_backup_restore/init.d/msm-log-rotate',
-    }
-
     file {'/etc/init.d/msm-update-auth-lists':
         owner   => root,
         group   => root,
@@ -75,18 +68,6 @@ class msm_backup_restore {
         user    => root,
         path    => '/usr/sbin',
         require => Exec['update-rc.d -f msm-jar-update remove'],
-    }
-
-    exec {'update-rc.d -f msm-log-rotate remove':
-        user    => root,
-        path    => '/usr/sbin',
-        require => File['/etc/init.d/msm-log-rotate'],
-    }
-
-    exec {'update-rc.d msm-log-rotate defaults 96 04':
-        user    => root,
-        path    => '/usr/sbin',
-        require => Exec['update-rc.d -f msm-log-rotate remove'],
     }
 
     exec {'update-rc.d -f msm-update-auth-lists remove':

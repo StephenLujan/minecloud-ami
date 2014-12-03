@@ -11,9 +11,6 @@ VENV_PYTHON='/usr/local/venv/bin/python'
 # Shutdown msm
 $MSM stop
 
-# Logroll
-$MSM all logroll
-find /opt/msm/servers -name 'server.log.offset' -exec rm '{}' ';'
 
 # Backup working files
 BACKUP_WORKING_FILES=/usr/local/bin/msm-backup-working-files-to-s3.py
