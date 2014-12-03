@@ -126,10 +126,11 @@ class msm {
 
     # PRONE TO BREAKING IF SERVER CHANGES
     # Changes eula to true to accept (required to run server)
-    file_line {'eula_line':
-        path   => '/opt/msm/servers/default/eula.txt',
-        line   => 'eula=true',
-        match => 'eula=false',
+    file {'/opt/msm/servers/default/eula.txt':
+        owner   => 'minecraft',
+        group   => 'minecraft',
+        mode    => 0664,
+        content => template('msm/eula.txt'),
         require => Exec['msm_server_create'],
     }
 
@@ -183,10 +184,10 @@ class msm {
         hasstatus => false,
         status => "ps -ef | grep -v grep | grep -i 'screen.*msm.*java.*Xms.*jar'",
         require => [File['/opt/msm/servers/default/server.properties',
+                        '/opt/msm/servers/default/eula.txt',
                         '/opt/msm/servers/default/world',
                         '/opt/msm/servers/default/active'],
                     Exec['update-rc.d msm defaults 97 03']],
-                    File_line['eula_line'],
     }
 
 }
