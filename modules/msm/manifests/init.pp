@@ -124,6 +124,15 @@ class msm {
         require => Exec['msm_server_create'],
     }
 
+    # PRONE TO BREAKING IF SERVER CHANGES
+    # Changes eula to true to accept (required to run server)
+    file_line {'eula_line':
+        path   => '/opt/msm/servers/default/eula.txt',
+        line   => 'eula=true',
+        match => 'eula=false',
+        require => Exec['msm_server_create'],
+    }
+
     exec {'msm_jar':
         user    => root,
         command => "/etc/init.d/msm default jar minecraft",
@@ -177,6 +186,7 @@ class msm {
                         '/opt/msm/servers/default/world',
                         '/opt/msm/servers/default/active'],
                     Exec['update-rc.d msm defaults 97 03']],
+                    File_line['eula_line'],
     }
 
 }
