@@ -1,28 +1,19 @@
 class oracle_java {
 
-    user {'oab':
-        ensure     => present,
-        home       => '/home/oab',
-        managehome => true,
+    exec{'add_java_repo':
+        path     => '/usr/bin',
+        command => 'add-apt-repository -y ppa:webupd8team/java && echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | sudo /usr/bin/debconf-set-selections && sudo apt-get update -y',
     }
 
-    exec {'git_clone_oab':
-        user    => oab,
-        path    => '/usr/bin',
-        #command => 'git clone git://github.com/flexiondotorg/oab-java6.git /home/oab/oab-java',
-        command => 'git clone https://github.com/ladios/oab-java6.git /home/oab/oab-java',
-        creates => '/home/oab/oab-java',
-        require => User['oab'],
+    exec{'build_java':
+        user => root,
+        path => [ "/bin/", "/sbin/" , "/usr/bin/", "/usr/sbin/", "/usr/local/sbin/" ],
+        command => 'apt-get install -y --force-yes oracle-java8-installer',
+        require => Exec['add_java_repo'],
+        logoutput => on_failure
     }
-
-    exec {'build_java':
-        user    => root,
-        timeout => 0,
-        command => '/home/oab/oab-java/oab-java.sh -7s',
-        require => Exec['git_clone_oab'],
-    }
-
-    package{ 'oracle-java7-jre':
+  
+    package{ 'oracle-java8-jre':
         ensure  => present,
         require => Exec['build_java'],
     }
