@@ -18,7 +18,7 @@ env.ec2_region = "us-west-2"
 env.ec2_amis = ['ami-fb68f8cb']  # Ubuntu 12.04 LTS amd64 EBS
 env.ec2_keypair = 'MinecraftEC2'
 env.ec2_secgroups = ['minecraft']
-env.ec2_instancetype = 'm1.small'
+env.ec2_instancetype = 'm3.medium'
 env.ec2_userdata = open('cloud-config').read()
 
 
