@@ -15,7 +15,7 @@ from fabric.network import disconnect_all
 # Edit env defaults to customize AMI.
 #
 env.ec2_region = "us-east-1"
-env.ec2_amis = ['ami-e3106686']  # Amazon Linux AMI 2015.09 (HVM), SSD Volume Type
+env.ec2_amis = ['ami-d05e75b8']  # Ubuntu Server 14.04 LTS (HVM), SSD Volume Type
 env.ec2_keypair = 'MinecraftEC2'
 env.ec2_secgroups = ['minecraft']
 env.ec2_instancetype = 't2.micro'
@@ -55,7 +55,7 @@ def launch_instance():
 def set_host_env(instance):
     env.user = 'ubuntu'
     env.hosts = [instance.public_dns_name]
-    env.key_filename = os.path.join(os.getenv('HOME'), '.ssh', env.ec2_keypair)
+    env.key_filename = os.path.join(os.path.expanduser('~'), '.ssh', env.ec2_keypair)
 
 def check_instance_availability():
     while not exists('/var/lib/cloud/instance/boot-finished'):
