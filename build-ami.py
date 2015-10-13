@@ -15,10 +15,10 @@ from fabric.network import disconnect_all
 # Edit env defaults to customize AMI.
 #
 env.ec2_region = "us-east-1"
-env.ec2_amis = ['ami-fb68f8cb']  # Ubuntu 12.04 LTS amd64 EBS
+env.ec2_amis = ['ami-e3106686']  # Amazon Linux AMI 2015.09 (HVM), SSD Volume Type
 env.ec2_keypair = 'MinecraftEC2'
 env.ec2_secgroups = ['minecraft']
-env.ec2_instancetype = 't2.tiny'
+env.ec2_instancetype = 't2.micro'
 env.ec2_userdata = open('cloud-config').read()
 
 
