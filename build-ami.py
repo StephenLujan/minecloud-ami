@@ -11,7 +11,6 @@ from fabric.contrib.files import exists
 from fabric.network import disconnect_all
 
 
-
 #
 # Edit env defaults to customize AMI.
 #
@@ -25,6 +24,14 @@ env.ec2_userdata = open('cloud-config').read()
 
 def _get_instance_status(instance, conn):
     return conn.get_all_instance_status(instance_ids=instance.id)[0]
+
+
+def test_ssh(hostname):
+    import socket
+    from contextlib import closing
+    with closing(socket.socket(socket.AF_INET, socket.SOCK_STREAM)) as s:
+        s.connect((hostname, 22))
+        print (_green("Port 22 reachable"))
 
 
 def launch_instance():
@@ -194,7 +201,8 @@ def terminate_instance(instance_id):
 
 def main():
     instance = launch_instance()
-    # instance = get_running_instance()
+    #instance = get_running_instance()
+    test_ssh(instance.public_dns_name)
     set_host_env(instance)
     execute(check_instance_availability)
     execute(copy_manifests)
