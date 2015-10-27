@@ -1,3 +1,4 @@
 *.pyc
 .env
 .DS_store
+/puppet-minecraft.tar.gz
