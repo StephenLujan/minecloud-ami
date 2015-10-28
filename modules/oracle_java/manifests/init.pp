@@ -12,8 +12,9 @@ class oracle_java {
         require => Exec['add_java_repo'],
         logoutput => on_failure
     }
-  
-    package{ 'oracle-java8-jre':
+
+    #package{ 'oracle-java8-jre':
+    package{ 'oracle-java8-installer':
         ensure  => present,
         require => Exec['build_java'],
     }
